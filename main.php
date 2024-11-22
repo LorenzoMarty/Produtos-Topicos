@@ -11,27 +11,8 @@
     <style>
         body {
             background-color: #f5f5f5;
-        }
-
-        .navbar {
-            background: white;
-            color: #0d47a1;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar .brand-logo {
             font-family: 'Poppins', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #0d47a1 !important;
         }
-
-        .navbar a {
-            color: #0d47a1 !important;
-            font-weight: 500;
-        }
-
-
 
         img.responsive-img {
             max-height: 100px;
@@ -43,14 +24,45 @@
             max-height: 50px;
             object-fit: contain;
         }
-        form.card-panel {
-            border-radius: 10px;
+
+        .navbar {
+            background: white;
+            color: #0d47a1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .brand-logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0d47a1 !important;
+        }
+
+        .navbar a {
+            color: #0d47a1 !important;
+            font-weight: 500;
+        }
+
+        .container {
+            margin-bottom: 50px;
+        }
+
+        .card-panel {
+            border-radius: 12px;
+            padding: 25px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+        }
+
+        .card-panel h5 {
+            color: #0d47a1;
+            font-weight: 600;
+        }
+
+        .input-field input:focus {
+            border-bottom: 1px solid #0d47a1;
         }
 
         .btn {
-            border-radius: 8px;
+            border-radius: 10px;
             transition: all 0.3s ease-in-out;
         }
 
@@ -67,17 +79,24 @@
         table {
             background: white;
             border-radius: 10px;
-            overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
 
         table thead th {
             background: #1976d2;
             color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        table tbody td {
+            padding: 10px;
+            text-align: center;
         }
 
         .modal {
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 20px;
         }
 
@@ -86,13 +105,45 @@
             justify-content: flex-end;
             gap: 10px;
         }
+
+        .file-field input[type="file"] {
+            background-color: #0d47a1;
+        }
+
+        @media (max-width: 600px) {
+            .navbar .brand-logo {
+                font-size: 1.4rem;
+            }
+
+            .card-panel {
+                padding: 15px;
+            }
+
+            .input-field input {
+                font-size: 0.9rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+        }
+
+        .modal-close {
+            background-color: #0288d1;
+        }
+
+        .modal-footer button {
+            border-radius: 8px;
+        }
     </style>
 </head>
 
 <body>
     <nav class="navbar">
         <div class="nav-wrapper container">
-            <a href="#" class="brand-logo center"><img src="img/icon.png" width="32px" height="32px" alt="">SuperTudo</a>
+            <a href="#" class="brand-logo center">
+                <img src="img/icon.png" width="32px" height="32px" alt=""> SuperTudo
+            </a>
             <ul class="right">
                 <li><b><a href="index.php">Inicio</a></b></li>
             </ul>
@@ -165,12 +216,22 @@
         </div>
     </div>
 
+    <div id="modal-sucesso" class="modal">
+        <div class="modal-content">
+            <h4>Excluído com Sucesso</h4>
+            <p>O produto foi excluído corretamente.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Fechar</a>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var modals = document.querySelectorAll('.modal');
             M.Modal.init(modals);
         });

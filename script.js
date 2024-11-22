@@ -32,26 +32,75 @@ function gerarPDF() {
         return;
     }
 
-    doc.setFontSize(16);
-    doc.text("Lista de Produtos", 14, 20);
+    const img = new Image();
+    img.src = 'img/icon.png'; 
 
-    const colunas = ["ID", "Nome", "Descrição", "Preço"];
-    const linhas = [];
+    img.onload = () => {
 
-    window.produtosCache.forEach(produto => {
-        linhas.push([produto.id_produto, produto.nome, produto.descricao, produto.preco]);
-    });
+        doc.addImage(img, 'PNG', 80, 10, 20, 20);
 
-    doc.autoTable({
-        head: [colunas],
-        body: linhas,
-        startY: 30
-    });
+        doc.setFontSize(20);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 123, 255); 
+        doc.text("SuperTudo", 104, 20); 
 
-    doc.save("produtos.pdf");
+        doc.setFontSize(20);
+        doc.setTextColor(0, 0, 0);
+        doc.text("Lista de Produtos", 20, 35); 
 
-    M.toast({ html: "PDF gerado com sucesso!", classes: "green darken-4" });
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        doc.text("Detalhes dos produtos cadastrados no sistema.", 20, 45);
+
+        const colunas = ["ID", "Nome", "Descrição", "Preço"];
+        const linhas = [];
+
+        window.produtosCache.forEach(produto => {
+            linhas.push([produto.id_produto, produto.nome, produto.descricao, produto.preco]);
+        });
+
+        doc.autoTable({
+            head: [colunas],
+            body: linhas,
+            startY: 50,  
+            theme: 'striped',
+            headStyles: {
+                fillColor: [0, 123, 255], 
+                textColor: [255, 255, 255], 
+                fontSize: 12,
+                font: "helvetica",
+                halign: 'center',
+            },
+            bodyStyles: {
+                fontSize: 10,
+                font: "helvetica",
+                halign: 'center',
+                valign: 'middle',
+                fillColor: (rowIndex) => rowIndex % 2 === 0 ? [220, 220, 220] : [169, 169, 169],
+            },
+            columnStyles: {
+                0: { halign: 'center' }, 
+                1: { halign: 'left' }, 
+                2: { halign: 'left' }, 
+                3: { halign: 'right' }, 
+            },
+            margin: { top: 30, left: 10, right: 10 },
+            pageBreak: 'auto',
+        });
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            doc.setFontSize(8);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Página ${i} de ${pageCount}`, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
+        }
+
+        doc.save("produtos.pdf");
+
+        M.toast({ html: "PDF gerado com sucesso!", classes: "green darken-4" });
+    };
 }
+
 function inserirProduto(produto) {
     let tbody = document.getElementById('produtos');
     let tr = document.createElement('tr');
@@ -113,7 +162,7 @@ function abrirModalConfirmacao(evt) {
 
     btnConfirmar.onclick = function () {
         excluir(id_produto);
-        modal.close();  
+        modal.close();
     };
 
     btnCancelar.onclick = function () {
@@ -140,13 +189,18 @@ function excluirProduto(retorno, id_produto) {
                 break;
             }
         }
+
+        let modal = M.Modal.getInstance(document.getElementById('modal-sucesso'));
+        modal.open(); 
+
         limparFormulario();
     }
 }
+
 function limparFormulario() {
     const form = document.querySelector('form');
     if (form) {
-        form.reset(); 
+        form.reset();
     }
     resetarCampos();
 }
@@ -193,11 +247,10 @@ function salvarProduto(event) {
     let preco = document.getElementsByName("preco")[0].value;
     let inputImagem = document.getElementsByName("imagem")[0];
 
-    resetarCampos(); // Reseta os campos antes de realizar a validação
+    resetarCampos(); 
 
     let valid = true;
 
-    // Validação do nome
     if (!nome) {
         mostrarErro("O nome do produto é obrigatório.", "nome");
         valid = false;
@@ -205,7 +258,6 @@ function salvarProduto(event) {
         limparErro("nome");
     }
 
-    // Validação da descrição
     if (!descricao) {
         mostrarErro("A descrição do produto é obrigatória.", "descricao");
         valid = false;
@@ -213,7 +265,6 @@ function salvarProduto(event) {
         limparErro("descricao");
     }
 
-    // Validação do preço
     if (!preco || isNaN(preco) || preco <= 0) {
         mostrarErro("O preço do produto deve ser um número positivo.", "preco");
         valid = false;
@@ -221,7 +272,6 @@ function salvarProduto(event) {
         limparErro("preco");
     }
 
-    // Validação da imagem
     if (inputImagem.files.length === 0) {
         mostrarErro("Por favor, selecione uma imagem para o produto.", "imagem");
         valid = false;
@@ -236,30 +286,26 @@ function salvarProduto(event) {
         }
     }
 
-    // Se não for válido, retorna
     if (!valid) {
         return false;
     }
 
-    // Se os dados estiverem corretos, segue com a leitura da imagem e envio dos dados
     let reader = new FileReader();
     reader.onload = function (e) {
         let imagemBase64 = e.target.result;
 
-        // Cadastrar ou alterar produto dependendo da presença do id_produto
         if (id_produto === "") {
             cadastrar(id_produto, nome, descricao, preco, imagemBase64);
         } else {
             alterar(id_produto, nome, descricao, preco, imagemBase64);
         }
 
-        document.querySelector('form').reset();  // Limpa o formulário após a submissão
+        document.querySelector('form').reset(); 
     };
-    reader.readAsDataURL(inputImagem.files[0]);  // Converte a imagem para base64
+    reader.readAsDataURL(inputImagem.files[0]);  
 }
 
 function resetarCampos() {
-    // Limpa todos os campos de erro e estilos de validação
     const campos = document.querySelectorAll('.input-field input');
     campos.forEach(input => {
         input.classList.remove('invalid', 'valid');
@@ -267,7 +313,6 @@ function resetarCampos() {
 }
 
 function mostrarErro(mensagem, campo) {
-    // Exibe a mensagem de erro no topo e marca o campo com erro
     M.toast({ html: mensagem, classes: 'red darken-4' });
 
     let input = document.getElementsByName(campo)[0];
@@ -275,13 +320,11 @@ function mostrarErro(mensagem, campo) {
 }
 
 function limparErro(campo) {
-    // Limpa o erro e a classe "invalid" dos campos
     let campoInput = document.getElementsByName(campo)[0];
-    campoInput.classList.remove('invalid');  // Remove a classe de erro
-    campoInput.classList.add('valid');  // Marca o campo como válido
+    campoInput.classList.remove('invalid');  
+    campoInput.classList.add('valid'); 
 }
 
-// Funções de cadastro e alteração continuam as mesmas
 function cadastrar(id_produto, nome, descricao, preco, imagem) {
     fetch('inserir.php', {
         method: 'POST',

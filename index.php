@@ -7,6 +7,7 @@
     <title>SuperTudo</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
     <style>
         body {
@@ -29,6 +30,15 @@
         .navbar a {
             color: #0d47a1 !important;
             font-weight: 500;
+        }
+
+        .sidenav {
+            background: #0d47a1;
+        }
+
+        .sidenav a {
+            color: white !important;
+            font-weight: bold;
         }
 
         .products-title {
@@ -77,6 +87,11 @@
             margin-top: 5px;
         }
 
+        .card-action a {
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
         footer.page-footer {
             background: white;
             color: #0d47a1;
@@ -90,9 +105,15 @@
         }
 
         .footer-copyright {
-            background: white; /* Mantém o fundo branco */
-            color: #0d47a1; /* Textos em azul */
-            padding: 10px 0; /* Espaçamento vertical */
+            background: white;
+            color: #0d47a1;
+            padding: 10px 0;
+        }
+
+        footer.page-footer ul li a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         @media (max-width: 600px) {
@@ -108,6 +129,10 @@
         .container {
             margin-bottom: 50px;
         }
+
+        .progress {
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -115,31 +140,30 @@
     <nav class="navbar">
         <div class="nav-wrapper container">
             <a href="#" class="brand-logo center"><img src="img/icon.png" width="32px" height="32px" alt="">SuperTudo</a>
-            <ul class="right">
+            <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
                 <li><a href="main.php">CRUD</a></li>
             </ul>
         </div>
     </nav>
+
+    <ul class="sidenav" id="mobile-nav">
+        <li><a href="main.php">CRUD</a></li>
+    </ul>
+
     <h5 class="products-title">Explore os Produtos do SuperTudo</h5>
     <div class="container">
         <div class="row" id="product-grid">
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>
+            <p class="center-align">Carregando produtos...</p>
+        </div>
+        <div class="center-align">
+            <button class="btn blue darken-4" onclick="loadProducts()">Atualizar Produtos</button>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-        function loadProducts() {
-            const xhr = new XMLHttpRequest();
-            xhr.open("GET", "produtos.php", true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    document.getElementById("product-grid").innerHTML = xhr.responseText;
-                }
-            };
-            xhr.send();
-        }
-        setInterval(loadProducts, 5000);
-        loadProducts();
-    </script>
+
     <footer class="page-footer">
         <div class="container">
             <div class="row">
@@ -150,9 +174,9 @@
                 <div class="col l4 offset-l2 s12">
                     <h5>Links</h5>
                     <ul>
-                        <li><a href="#!">Política de Privacidade</a></li>
-                        <li><a href="#!">Termos de Uso</a></li>
-                        <li><a href="#!">Contato</a></li>
+                        <li><a href="#!"><i class="material-icons left">security</i>Política de Privacidade</a></li>
+                        <li><a href="#!"><i class="material-icons left">gavel</i>Termos de Uso</a></li>
+                        <li><a href="#!"><i class="material-icons left">contact_mail</i>Contato</a></li>
                     </ul>
                 </div>
             </div>
@@ -164,6 +188,35 @@
             </div>
         </div>
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var sidenavs = document.querySelectorAll('.sidenav');
+            M.Sidenav.init(sidenavs);
+        });
+
+        function loadProducts() {
+            const productGrid = document.getElementById("product-grid");
+            productGrid.innerHTML = `
+                <div class="progress">
+                    <div class="indeterminate"></div>
+                </div>
+                <p class="center-align">Carregando produtos...</p>
+            `;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "produtos.php", true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    productGrid.innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+
+        loadProducts();
+    </script>
 </body>
 
 </html>
