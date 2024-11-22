@@ -18,6 +18,40 @@ function inserirprodutos(produtos) {
     produtos.forEach(produto => inserirProduto(produto));
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    listarTodos(); // Carrega os produtos na inicialização
+    document.getElementById("btn-gerar-pdf").addEventListener("click", gerarPDF); // Gera PDF
+});
+
+function gerarPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    if (!window.produtosCache || window.produtosCache.length === 0) {
+        M.toast({ html: "Nenhum produto disponível para gerar o PDF.", classes: "red darken-4" });
+        return;
+    }
+
+    doc.setFontSize(16);
+    doc.text("Lista de Produtos", 14, 20);
+
+    const colunas = ["ID", "Nome", "Descrição", "Preço"];
+    const linhas = [];
+
+    window.produtosCache.forEach(produto => {
+        linhas.push([produto.id_produto, produto.nome, produto.descricao, produto.preco]);
+    });
+
+    doc.autoTable({
+        head: [colunas],
+        body: linhas,
+        startY: 30
+    });
+
+    doc.save("produtos.pdf");
+
+    M.toast({ html: "PDF gerado com sucesso!", classes: "green darken-4" });
+}
 function inserirProduto(produto) {
     let tbody = document.getElementById('produtos');
     let tr = document.createElement('tr');
