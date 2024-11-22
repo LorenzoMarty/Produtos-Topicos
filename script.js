@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     listarTodos();
-    // Inicializando o modal
+    document.getElementById("btn-gerar-pdf").addEventListener("click", gerarPDF);
     M.Modal.init(document.querySelectorAll('.modal'));
 });
 
@@ -22,12 +22,6 @@ function inserirprodutos(produtos) {
     tbody.innerHTML = "";
     produtos.forEach(produto => inserirProduto(produto));
 }
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    listarTodos(); // Carrega os produtos na inicialização
-    document.getElementById("btn-gerar-pdf").addEventListener("click", gerarPDF); // Gera PDF
-});
 
 function gerarPDF() {
     const { jsPDF } = window.jspdf;

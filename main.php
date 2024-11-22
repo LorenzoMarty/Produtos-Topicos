@@ -4,16 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos</title>
-    <!-- Importa o Materialize CSS -->
+    <title>SuperTudo</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
     <style>
         .navbar {
-            background-color: #1565c0;
+            background: linear-gradient(90deg, #0d47a1, #1565c0);
             color: white;
         }
+
+        .navbar .brand-logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .navbar a {
+            color: white !important;
+            font-weight: 500;
+        }
+
 
         img.responsive-img {
             max-height: 100px;
