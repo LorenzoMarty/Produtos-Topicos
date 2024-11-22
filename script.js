@@ -10,13 +10,19 @@ function listarTodos() {
         headers: { 'Content-Type': "application/json; charset=UTF-8" }
     })
         .then(response => response.json())
-        .then(produtos => inserirprodutos(produtos))
+        .then(produtos => {
+            window.produtosCache = produtos;
+            inserirprodutos(produtos);
+        })
         .catch(error => console.log(error));
 }
 
 function inserirprodutos(produtos) {
+    const tbody = document.getElementById("produtos");
+    tbody.innerHTML = "";
     produtos.forEach(produto => inserirProduto(produto));
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     listarTodos(); // Carrega os produtos na inicialização
