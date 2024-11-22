@@ -96,7 +96,6 @@
         </div>
     </div>
 
-    <!-- Modal de Confirmação -->
     <div id="modal-confirmacao" class="modal">
         <div class="modal-content">
             <h4>Confirmar Exclusão</h4>
@@ -108,11 +107,11 @@
         </div>
     </div>
 
-    <!-- Importa Materialize JavaScript e o Script Principal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="script.js"></script>
     <script>
-        // Inicializa o modal
         document.addEventListener('DOMContentLoaded', function () {
             var modals = document.querySelectorAll('.modal');
             M.Modal.init(modals);
