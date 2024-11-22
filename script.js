@@ -75,34 +75,33 @@ function inserirProduto(produto) {
     img.classList.add('materialboxed', 'img-tabela');
     tdImagem.appendChild(img);
 
-    let tdAlterar = document.createElement('td');
+    let tdOpcoes = document.createElement('td');
     let btnAlterar = document.createElement('button');
     btnAlterar.innerHTML = "Alterar";
-    btnAlterar.classList.add('btn', 'blue', 'darken-4');
+    btnAlterar.classList.add('btn', 'blue', 'darken-4', 'waves-effect', 'waves-light', 'btn-small');
     btnAlterar.addEventListener("click", buscaProduto, false);
     btnAlterar.id_produto = produto.id_produto;
-    tdAlterar.appendChild(btnAlterar);
-
-    let tdExcluir = document.createElement('td');
     let btnExcluir = document.createElement('button');
     btnExcluir.innerHTML = "Excluir";
-    btnExcluir.classList.add('btn', 'red', 'darken-4');
+    btnExcluir.classList.add('btn', 'red', 'darken-4', 'waves-effect', 'waves-light', 'btn-small', 'ml-1');
     btnExcluir.addEventListener("click", abrirModalConfirmacao, false);
     btnExcluir.id_produto = produto.id_produto;
-    tdExcluir.appendChild(btnExcluir);
+    tdOpcoes.appendChild(btnAlterar);
+    tdOpcoes.appendChild(document.createTextNode(" "));
+    tdOpcoes.appendChild(btnExcluir);
 
     tr.appendChild(tdId);
     tr.appendChild(tdNome);
     tr.appendChild(tdDescricao);
     tr.appendChild(tdPreco);
     tr.appendChild(tdImagem);
-    tr.appendChild(tdAlterar);
-    tr.appendChild(tdExcluir);
+    tr.appendChild(tdOpcoes);
 
     tbody.appendChild(tr);
 
     M.Materialbox.init(document.querySelectorAll('.materialboxed'));
 }
+
 
 function abrirModalConfirmacao(evt) {
     let id_produto = evt.currentTarget.id_produto;
@@ -110,15 +109,15 @@ function abrirModalConfirmacao(evt) {
     let btnConfirmar = document.getElementById('btn-confirmar-exclusao');
     let btnCancelar = document.getElementById('btn-cancelar-exclusao');
 
-    modal.open();  // Abre o modal
+    modal.open();
 
     btnConfirmar.onclick = function () {
         excluir(id_produto);
-        modal.close();  // Fecha o modal
+        modal.close();  
     };
 
     btnCancelar.onclick = function () {
-        modal.close();  // Fecha o modal
+        modal.close();
     };
 }
 
@@ -141,7 +140,15 @@ function excluirProduto(retorno, id_produto) {
                 break;
             }
         }
+        limparFormulario();
     }
+}
+function limparFormulario() {
+    const form = document.querySelector('form');
+    if (form) {
+        form.reset(); 
+    }
+    resetarCampos();
 }
 
 function alterarProduto(produto) {

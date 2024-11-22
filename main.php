@@ -43,6 +43,49 @@
             max-height: 50px;
             object-fit: contain;
         }
+        form.card-panel {
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .btn {
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #btn-gerar-pdf {
+            margin-top: 10px;
+            background: linear-gradient(45deg, #43a047, #66bb6a);
+        }
+
+        table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead th {
+            background: #1976d2;
+            color: white;
+        }
+
+        .modal {
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
     </style>
 </head>
 
@@ -56,13 +99,11 @@
         </div>
     </nav>
 
-    <!-- Formulário e Tabela -->
     <div class="container">
         <div class="row">
-            <!-- Formulário -->
             <div class="col s12 m6">
                 <form onsubmit="return salvarProduto(event);" class="card-panel">
-                    <h5>Cadastro de Produtos</h5>
+                    <h5 class="blue-text darken-4">Cadastro de Produtos</h5>
                     <div class="input-field">
                         <input type="number" name="id_produto" id="id_produto" readonly>
                         <label for="id_produto">ID</label>
@@ -95,7 +136,6 @@
                 <button id="btn-gerar-pdf" class="btn green darken-4">Gerar PDF</button>
             </div>
 
-            <!-- Tabela -->
             <div class="col s12 m6">
                 <table class="responsive-table highlight centered">
                     <thead>
