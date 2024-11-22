@@ -32,7 +32,7 @@
     <nav class="navbar">
         <div class="nav-wrapper container">
             <a href="#" class="brand-logo center">SuperTudo</a>
-            <ul class="right hide-on-med-and-down">
+            <ul class="right">
                 <li><b><a href="main.php">CRUD</a></b></li>
             </ul>
         </div>

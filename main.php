@@ -32,7 +32,7 @@
     <nav class="navbar">
         <div class="nav-wrapper container">
             <a href="#" class="brand-logo center">SuperTudo</a>
-            <ul class="right hide-on-med-and-down">
+            <ul class="right">
                 <li><b><a href="index.php">Inicio</a></b></li>
             </ul>
         </div>
@@ -73,8 +73,8 @@
                     <button type="submit" class="btn waves-effect waves-light blue darken-4">
                         Salvar Produto
                     </button>
-                    <button id="btn-gerar-pdf" class="btn green darken-4">Gerar PDF</button>
                 </form>
+                <button id="btn-gerar-pdf" class="btn green darken-4">Gerar PDF</button>
             </div>
 
             <!-- Tabela -->
