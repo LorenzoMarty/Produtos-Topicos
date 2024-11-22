@@ -9,21 +9,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
     <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
         .navbar {
-            background: linear-gradient(90deg, #0d47a1, #1565c0);
-            color: white;
+            background: white;
+            color: #0d47a1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .navbar .brand-logo {
             font-family: 'Poppins', sans-serif;
             font-size: 1.8rem;
             font-weight: 600;
+            color: #0d47a1 !important;
         }
 
         .navbar a {
-            color: white !important;
+            color: #0d47a1 !important;
             font-weight: 500;
         }
+
 
 
         img.responsive-img {
@@ -42,7 +49,7 @@
 <body>
     <nav class="navbar">
         <div class="nav-wrapper container">
-            <a href="#" class="brand-logo center">SuperTudo</a>
+            <a href="#" class="brand-logo center"><img src="img/icon.png" width="32px" height="32px" alt="">SuperTudo</a>
             <ul class="right">
                 <li><b><a href="index.php">Inicio</a></b></li>
             </ul>
@@ -123,7 +130,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var modals = document.querySelectorAll('.modal');
             M.Modal.init(modals);
         });
