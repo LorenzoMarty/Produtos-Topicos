@@ -14,11 +14,13 @@
             background-color: #1565c0;
             color: white;
         }
+
         .products-title {
             text-align: center;
             margin: 20px 0;
             font-family: 'Poppins', sans-serif;
         }
+
         .card-title {
             font-size: 1.1rem;
             font-weight: bold;
@@ -27,7 +29,7 @@
 </head>
 
 <body>
-<nav class="navbar">
+    <nav class="navbar">
         <div class="nav-wrapper container">
             <a href="#" class="brand-logo center">SuperTudo</a>
             <ul class="right hide-on-med-and-down">
@@ -46,23 +48,56 @@
             require_once "conexao.php";
             $conexao = conectar();
 
-            // Consulta para buscar 8 produtos aleatórios
-            $sql = "SELECT nome FROM produtos ORDER BY RAND() LIMIT 8";
+            // Consulta para buscar 8 produtos aleatórios, incluindo o nome e a imagem
+            $sql = "SELECT nome, imagem FROM produtos ORDER BY RAND() LIMIT 8";
             $result = executarSQL($conexao, $sql);
 
             // Verifica se há produtos
             if ($result->num_rows > 0) {
+                // Variáveis para organizar os produtos nas duas colunas
+                $counter = 0;
+                $products = [];
+
+                // Pega todos os produtos
                 while ($row = $result->fetch_assoc()) {
-                    echo '
-                        <div class="col s12 m6 l3">
-                            <div class="card">
-                                <div class="card-content">
-                                    <span class="card-title">' . htmlspecialchars($row['nome']) . '</span>
-                                </div>
-                            </div>
-                        </div>
-                    ';
+                    $products[] = $row;
                 }
+
+                // Organiza os produtos em duas colunas
+                echo '<div class="row">'; // Começa a primeira linha de produtos
+                for ($i = 0; $i < 4; $i++) {
+                    echo '
+            <div class="col s12 m6 l3">
+                <div class="card">
+                    <div class="card-image">
+                        <img width="200px" height="200px" src="' . htmlspecialchars($products[$i]['imagem']) . '" alt="' . htmlspecialchars($products[$i]['nome']) . '">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">' . htmlspecialchars($products[$i]['nome']) . '</span>
+                    </div>
+                </div>
+            </div>
+        ';
+                }
+                echo '</div>'; // Fecha a primeira linha de produtos
+
+                // Segunda linha de produtos
+                echo '<div class="row">';
+                for ($i = 4; $i < 8; $i++) {
+                    echo '
+            <div class="col s12 m6 l3">
+                <div class="card">
+                    <div class="card-image">
+                        <img width="200px" height="200px" src="' . htmlspecialchars($products[$i]['imagem']) . '" alt="' . htmlspecialchars($products[$i]['nome']) . '">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">' . htmlspecialchars($products[$i]['nome']) . '</span>
+                    </div>
+                </div>
+            </div>
+        ';
+                }
+                echo '</div>'; // Fecha a segunda linha de produtos
             } else {
                 echo '<p class="center-align">Nenhum produto encontrado.</p>';
             }
@@ -70,6 +105,8 @@
             // Fecha a conexão
             $conexao->close();
             ?>
+
+
         </div>
     </div>
 
